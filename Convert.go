@@ -172,7 +172,7 @@ const (
 //获取日期格式
 func GetLongDateString(date string, Hours int64) (dateString string, err error) {
 	if len(date) <= 0 {
-		return "", errors.New("时间为空")
+		return "", errors.New("时间不能为空")
 	}
 	inputDate, err := time.Parse(LongDateFormat, date)
 	if err == nil {
@@ -180,7 +180,7 @@ func GetLongDateString(date string, Hours int64) (dateString string, err error) 
 		d := inputDate.Add(time.Duration(Hours) * h)
 		return d.Format(LongDateFormat), err
 	} else {
-		return "", errors.New("时间格式不对")
+		return "", errors.New("时间格式错误")
 	}
 }
 
@@ -195,7 +195,7 @@ func GetShortDateString(date string, Hours int64) (dateString string, err error)
 		d := inputDate.Add(time.Duration(Hours) * h)
 		return d.Format(LongDateFormat), err
 	} else {
-		return "", errors.New("时间格式不对")
+		return "", errors.New("时间格式错误")
 	}
 }
 

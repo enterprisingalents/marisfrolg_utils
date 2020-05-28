@@ -19,10 +19,10 @@ Type:控制器名称
 Title:函数名称
 Message:要记录在日志的内容
 */
-func AddOperationLog(Type string, Title string, Message string) {
+func AddOperationLog(Type string, Title string, Message string,Filepath string) {
 	var (
 		Data    = time.Now().Format(`20060102`)
-		LogPath = "./Log/" + Data
+		LogPath = "./"+Filepath+"/" + Data
 		exist   bool
 		err     error
 		path    string
@@ -63,7 +63,7 @@ Type:控制器名称
 Title:函数名称
 Message:要记录在日志的内容
 */
-func AddOperationLogFromFileName(action, message, fileName string) {
+func AddOperationLogFromFileName(action, message, fileName string,Filepath string) {
 	var (
 		exist bool
 		err   error
@@ -71,7 +71,7 @@ func AddOperationLogFromFileName(action, message, fileName string) {
 		file  *os.File
 	)
 	nowDate := time.Now().Format(`20060102`)
-	LogPath := "./Log/" + nowDate
+	LogPath := "./"+Filepath+"/" + nowDate
 	exist, err = PathlogExistsFile(LogPath)
 	if err != nil {
 		return
@@ -93,21 +93,29 @@ func AddOperationLogFromFileName(action, message, fileName string) {
 
 	}
 }
-
-//检查制定路径下是否存在文件如果不存在直接创建文件夹(文件性日志)
-func PathlogExistsFile(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true, nil
-	}
-	err = os.MkdirAll(path, os.ModePerm)
+//创建.log日志
+func CreateLog(Path string, fileName string, Data string,Filepath string) {
+	LogPath := "./"+Filepath+"/" + time.Now().Format(`20060102`) + "/" + Path
+	exist, err := PathlogExistsFile(LogPath)
 	if err != nil {
-		return false, err
-	} else {
-		return true, nil
+		return
 	}
-	return false, err
+	if exist {
+		// 以追加模式打开文件，当文件不存在时生成文件
+		path := fmt.Sprintf(`%s/%s.log`, LogPath, fileName)
+		file, error := os.OpenFile(path, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
+		if error != nil {
+			return
+		}
+		defer file.Close()
+		n, err := io.WriteString(file, Data)
+		if err != nil {
+			log.Println(n, err)
+		}
+	}
 }
+
+
 
 func GetIP() string {
 	addrs, err := net.InterfaceAddrs()

@@ -29,7 +29,7 @@ func IsCreateDir(path string) (err error) {
 	return err
 }
 
-func SaveFileToTempDirectory(isNeedPrefix bool, file *multipart.FileHeader) (fileName, filePath string, err error) {
+func SaveFileToTempDirectory(isNeedPrefix bool, file *multipart.FileHeader,UploadFile string) (fileName, filePath string, err error) {
 	var (
 		dir       string
 		existsDir bool
@@ -37,8 +37,8 @@ func SaveFileToTempDirectory(isNeedPrefix bool, file *multipart.FileHeader) (fil
 		reader    multipart.File
 	)
 	dir, _ = filepath.Abs(filepath.Dir(os.Args[0]))
-	filePath = strings.Replace(dir, "\\", "/", -1) + "/UploadFile"
-	existsDir, _ = PathExists(filePath)
+	filePath = strings.Replace(dir, "\\", "/", -1) + "/"+UploadFile
+	existsDir, _ = PathlogExistsFile(filePath)
 	if !existsDir {
 		os.Mkdir(filePath, os.ModePerm)
 	}

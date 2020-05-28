@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func GetKeyFromRedis(key string) (data string, err error) {
+func GetKeyFromRedis(key string,REDIS_CONN string) (data string, err error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:        REDIS_CONN,
 		Password:    "", // no password set
@@ -22,7 +22,7 @@ func GetKeyFromRedis(key string) (data string, err error) {
 	}
 }
 
-func SetKeyToRedis(keyName string,value interface{},expireTime time.Duration)(err error){
+func SetKeyToRedis(keyName string,value interface{},expireTime time.Duration,REDIS_CONN string)(err error){
 	client := redis.NewClient(&redis.Options{
 		Addr:        REDIS_CONN,
 		Password:    "", // no password set
