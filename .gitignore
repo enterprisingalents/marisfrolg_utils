@@ -13,3 +13,26 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+debug
+
+# Folders
+*.exe
+*.exe~
+*.gz
+.idea
+*.out
+*.Log
+
+/uploads
+/UploadFile
+/DownloadFile
+/docs/swagger/swagger*
+# Docker排除本地环境
+/oracle
+/nwrfcsdk
+#排除文件修改记录
+/.history
+docs/swagger.json
+docs/swagger.yaml
+__debug_bin
